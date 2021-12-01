@@ -15,3 +15,16 @@ app.use(
   })
 );
 app.use(cors());
+
+app.use('/cities', require('./routes/cities'));
+app.use('/all', require('./routes/cities'));
+const db = require('./keys').mongoURI;
+
+const mongoose = require("mongoose");
+
+mongoose.connect(db, { 
+  useNewUrlParser: true, 
+  useUnifiedTopology: true
+})
+    .then(() => console.log('Connection to Mongo DB established'))
+    .catch(err => console.log(err));
