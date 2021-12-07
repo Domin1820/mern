@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const Welcome = () => {
     return (
@@ -21,15 +23,35 @@ export const NavBar = () => {
         </nav>
     )
 }
-export class Cities extends Component {
-    render () {
+
+ 
+// const QuoteList = ({quotes}) =>
+//   quotes.map(quote => <li key={quote}>{quote}</li>)
+
+export const Citydb = () => {
+    const [posts, setPosts] = useState([]);
+
+    useEffect(() => {
+    axios
+        .get('http://localhost:5000/cities/all')
+        .then(res => {
+            setPosts(res.data)
+        })
+      .catch(err => console.log(err));
+        }
+    )
     return (
         <div>
-            <p>Cities</p>
+            <ul>
+                {
+                posts.map(posts => <li key={posts.id}>{posts.name}</li>)
+                }
+            </ul>
         </div>
-        )
-    }
-}
-
-
+    )
+} 
+  
+ 
+ 
+// export default QuoteList
 export default Welcome
