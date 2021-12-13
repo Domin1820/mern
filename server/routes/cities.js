@@ -18,7 +18,10 @@ router.get("/all", (req, res) => {
 
 router.post("/all", (req, res) => {
   const newCity = new City({
-    name: req.body.name
+    name: req.body.name,
+    country: req.body.country,
+    image: req.body.image,
+
   });
   newCity.save().then(item => res.json(item))
 })
