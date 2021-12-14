@@ -1,7 +1,9 @@
 import React, {Component} from 'react'
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+// import axios from 'axios'
+import '../App.css'
+import Table from './Table'
 
 const Welcome = () => {
     return (
@@ -29,25 +31,36 @@ export const NavBar = () => {
 //   quotes.map(quote => <li key={quote}>{quote}</li>)
 
 export const Citydb = () => {
-    const [posts, setPosts] = useState([]);
+    const [data, setData] = useState([]);
+    const [q, setQ] = useState('');
 
     useEffect(() => {
-    axios
-        .get('http://localhost:5000/cities/all')
-        .then(res => {
-            setPosts(res.data)
-        })
-      .catch(err => console.log(err));
+    
+        fetch('http://localhost:5000/cities/all')
+        .then((response) => response.json())
+        .then((json => setData(json)))
+    },[]);
+
+        function search (rows) {
+            return rows.filter(
+                (row) => row.name.toLowerCase().indexOf(q) > -1);
         }
-    )
+
     return (
-        <div>
-            <ul>
-                {
-                posts.map(posts => <li key={posts.id}>{posts.name}</li>)
-                }
-            </ul>
+        <div className='container'>
+            <div>
+                <input 
+                    type='text'
+                    className='col-md-12 input'
+                    value={q}
+                    onChange={(e) => setQ(e.target.value)}
+                />
+            </div>
+            <div>
+                <Table data={search(data)} />
+            </div>
         </div>
+
     )
 } 
   
